@@ -29,7 +29,9 @@ public class MainActivity extends AppCompatActivity {
 
             Ring ring = new Ring(keys, 1024);
             Vector<BigInteger> signature = ring.sign("hello", 2);
-            keyGen.generateKeyPair();
+            if (ring.verify("hello", signature)) {
+                keyGen.generateKeyPair();
+            }
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }

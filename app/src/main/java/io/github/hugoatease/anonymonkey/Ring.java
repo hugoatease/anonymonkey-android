@@ -52,6 +52,20 @@ public class Ring {
         return result;
     }
 
+    public boolean verify(String m, Vector<BigInteger> X) {
+        permut(m);
+        Vector<BigInteger> y = new Vector<>(X.size());
+        for (int i=0; i <  X.size() - 1; i++) {
+            y.add(g(X.get(i+1), ((RSAPublicKey) this.k[i].getPublic()).getPublicExponent(), ((RSAPublicKey) this.k[i].getPublic()).getModulus()));
+        }
+
+        BigInteger r = X.get(0);
+        for (int i=0; i < this.n; i++) {
+            r = E(r.xor(y.get(i)));
+        }
+        return r == X.get(0);
+    }
+
     private BigInteger g(BigInteger x, BigInteger e, BigInteger n) {
         BigInteger[] division = x.divideAndRemainder(n);
         BigInteger q = division[0];
